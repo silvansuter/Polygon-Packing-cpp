@@ -19,12 +19,11 @@ public:
 };
 
 struct Polygon {
+    vector<tuple<int,int>> vertices;
 
-vector<tuple<int,int>> vertices;
-
-int calculateWidth() const {
-    return get<0>(max_vert()) - get<0>(min_vert());
-}
+    int calculateWidth() const {
+        return get<0>(max_vert()) - get<0>(min_vert());
+    }
 
 public:
     Polygon(vector<tuple<int, int>> verts) : vertices(verts), width(calculateWidth()) {};
