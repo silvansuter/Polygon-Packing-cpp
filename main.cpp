@@ -74,6 +74,7 @@ int main() {
     }
     */
 
+    cout << "min and max vertices of poly" << endl;
     Polygon poly({make_tuple(1,1),make_tuple(0,0),make_tuple(2,0)});
 
     auto minVert = poly.min_vert();
@@ -81,7 +82,12 @@ int main() {
     cout << "(" << get<0>(minVert) << ", " << get<1>(minVert) << ") "
         << "(" << get<0>(maxVert) << ", " << get<1>(maxVert) << ")" << endl;
     cout << poly.width << endl;
+    cout << poly.height << endl;
 
+    cout << "bounding para" << endl;
+    Parallelogram para = poly.computeBoundingPara();
+
+    cout << para.height << ", " << para.base << ", " << para.wside << endl;
 
     return 0;
 }
