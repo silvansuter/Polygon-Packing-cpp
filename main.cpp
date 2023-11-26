@@ -85,7 +85,7 @@ int main() {
     cout << poly.height << endl;
 
     cout << "bounding para" << endl;
-    Parallelogram para = poly.computeBoundingPara();
+    Parallelogram para = get<0>(poly.computeBoundingPara());
 
     cout << para.height << ", " << para.base << ", " << para.wside << endl;
 

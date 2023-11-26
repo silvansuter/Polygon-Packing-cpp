@@ -65,7 +65,7 @@ public:
     }
     */
 
-    Parallelogram computeBoundingPara() {
+    tuple<Parallelogram, int> computeBoundingPara() {
         tuple<int, int> vertexWithMinHeight = min_vert(make_tuple(0,1));
         tuple<int, int> vertexWithMaxHeight = max_vert(make_tuple(0,1));
 
@@ -85,11 +85,11 @@ public:
         cout << width << " " << base << " " << height << " " << wside << endl;
 
         if (base < width) {
-            Parallelogram para(base, height, wside);
+            Parallelogram para(base, height, wside), left_lower_point[0];
             return para;
         }
         else {
-            Parallelogram para(width, height, 0);
+            Parallelogram para(width, height, 0), 0;
             return para;
         }
     }
