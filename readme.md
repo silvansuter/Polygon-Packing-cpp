@@ -1,0 +1,1 @@
+This project is still a work in progress. For a functioning implementation in Python, see https://github.com/silvansuter/Polygon-Packing.
