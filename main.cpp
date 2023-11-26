@@ -33,7 +33,13 @@ vector<Polygon> generateRandomPolygons(int n) {
     vector<Polygon> polygons;
     for (int i = 0; i < n; ++i) {
         int numVertices = dis(gen) / 2 + 3; // Ensure at least 3 vertices
-        polygons.emplace_back(generateRandomVertices(numVertices));
+        Polygon poly(generateRandomVertices(numVertices));
+        int min_x = get<0>(poly.min_vert());
+        int min_y = get<1>(poly.min_vert(make_tuple(0,1)));
+        for (int i=0; i<poly.vertices.size(); i++) {
+            poly.vertices[i] = {get<0>(poly.vertices[i])-min_x, get<1>(poly.vertices[i])-min_y};
+        }
+        polygons.push_back(poly);
     }
     return polygons;
 }
