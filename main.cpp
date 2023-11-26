@@ -5,11 +5,54 @@
 #include <algorithm>
 #include <utility>
 #include <numeric>
+#include <random>
+
+// Random number generator
+std::random_device rd;
+std::mt19937 gen(rd());
+std::uniform_int_distribution<> dis(1, 10); // Adjust range as needed
+
 
 #include "classes.cpp"
 #include "rectanglePacking.cpp"
+#include "polygonPacking.cpp"
 
 using namespace std;
+
+vector<tuple<int, int>> generateRandomVertices(int numVertices) {
+    vector<tuple<int, int>> vertices;
+    for (int i = 0; i < numVertices; ++i) {
+        int x = dis(gen);
+        int y = dis(gen);
+        vertices.emplace_back(x, y);
+    }
+    return vertices;
+}
+
+vector<Polygon> generateRandomPolygons(int n) {
+    vector<Polygon> polygons;
+    for (int i = 0; i < n; ++i) {
+        int numVertices = dis(gen) / 2 + 3; // Ensure at least 3 vertices
+        polygons.emplace_back(generateRandomVertices(numVertices));
+    }
+    return polygons;
+}
+
+void printPackingResult(const vector<Polygon>& polygons, const vector<Parallelogram>& parallelograms, int width, int height) {
+    cout << "Packed Polygons:" << endl;
+    for (const auto& polygon : polygons) {
+        polygon.print(); // Assuming Polygon class has a print method
+    }
+
+    cout << "Packed Parallelograms:" << endl;
+    // Assuming Parallelogram class has a method to print its details
+    for (const auto& parallelogram : parallelograms) {
+        parallelogram.print();
+    }
+
+    cout << "Packing Width: " << width << ", Packing Height: " << height << endl;
+}
+
 
 int main() {
     Rectangle myRect(1,2,7,4);
@@ -88,6 +131,13 @@ int main() {
     Parallelogram para = get<0>(poly.computeBoundingPara());
 
     cout << para.height << ", " << para.base << ", " << para.wside << endl;
+
+    vector<Polygon> polygons = generateRandomPolygons(30);
+
+    auto [packedPolygons, parallelograms, width, height] = polygon_packing(polygons);
+    printPackingResult(packedPolygons, parallelograms, width, height);
+
+    // Now you can use packedPolygons, parallelograms, width, and height as needed
 
     return 0;
 }
