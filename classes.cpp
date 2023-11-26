@@ -25,8 +25,14 @@ struct Parallelogram {
     tuple<int, int> coords;
 
 public:
+    Parallelogram() : base(0), height(0), wside(0), coords(make_tuple(0,0)) {};
     Parallelogram(int b, int h, int wside, int x, int y) : base(b), height(h), wside(wside), coords(make_tuple(x,y)) {};
     Parallelogram(int b, int h, int wside) : base(b), height(h), wside(wside), coords(make_tuple(0,0)) {};
+
+    void print() const {
+        cout << "Parallelogram - Base: " << base << ", Height: " << height << ", WSide: " << wside
+            << ", Coordinates: (" << get<0>(coords) << ", " << get<1>(coords) << ")\n";
+    }
 };
 
 struct Polygon {
@@ -85,13 +91,21 @@ public:
         cout << width << " " << base << " " << height << " " << wside << endl;
 
         if (base < width) {
-            Parallelogram para(base, height, wside), left_lower_point[0];
-            return para;
+            Parallelogram para(base, height, wside);
+            return {para, get<0>(leftLowerPointOfPara)};
         }
         else {
-            Parallelogram para(width, height, 0), 0;
-            return para;
+            Parallelogram para(width, height, 0);
+            return {para, 0};
         }
+    }
+
+    void print() const {
+        cout << "Polygon vertices: ";
+        for (const auto& vertex : vertices) {
+            cout << "(" << get<0>(vertex) << ", " << get<1>(vertex) << ") ";
+        }
+        cout << "\n";
     }
 };
 
