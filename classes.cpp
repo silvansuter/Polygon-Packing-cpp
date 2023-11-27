@@ -10,12 +10,12 @@ using namespace std;
 
 struct Rectangle {
     tuple<int,int> coords;
-    int height;
     int width;
+    int height;
     
 public:
-    Rectangle(int x, int y, int h, int w) : coords(make_tuple(x, y)), height(h), width(w) {}
-    Rectangle(int h, int w) : coords(make_tuple(0, 0)), height(h), width(w) {}
+    Rectangle(int x, int y, int w, int h) : coords(make_tuple(x, y)), width(w), height(h) {}
+    Rectangle(int w, int h) : coords(make_tuple(0, 0)), width(w), height(h) {}
 };
 
 struct Parallelogram {
