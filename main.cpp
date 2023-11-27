@@ -37,7 +37,7 @@ vector<Polygon> generateRandomPolygons(int n) {
         int min_x = get<0>(poly.min_vert());
         int min_y = get<1>(poly.min_vert(make_tuple(0,1)));
         for (int i=0; i<poly.vertices.size(); i++) {
-            poly.vertices[i] = {get<0>(poly.vertices[i])-min_x, get<1>(poly.vertices[i])-min_y};
+            poly.vertices[i] = {get<0>(poly.vertices[i])-min_x, get<1>(poly.vertices[i])-min_y}; //Left-bottom adjust
         }
         polygons.push_back(poly);
     }
@@ -61,7 +61,7 @@ void printPackingResult(const vector<Polygon>& polygons, const vector<Parallelog
 
 
 int main() {
-    Rectangle myRect(1,2,7,4);
+    Rectangle myRect(1,2,4,7);
     //cout << myRect.height;
 
     cout << "main gets started" << endl;
@@ -69,16 +69,16 @@ int main() {
     
     // Create a vector of 10 Rectangle instances with varying heights and widths
     vector<Rectangle> rectangles = {
-        Rectangle(100, 22),
-        Rectangle(60, 12),
-        Rectangle(50, 33),
-        Rectangle(30, 31),
-        Rectangle(90, 28),
-        Rectangle(80, 20),
-        Rectangle(33, 29),
-        Rectangle(56, 25),
-        Rectangle(27, 34),
-        Rectangle(10, 15)
+        Rectangle(22, 100),
+        Rectangle(12, 60),
+        Rectangle(33, 50),
+        Rectangle(31, 30),
+        Rectangle(28, 90),
+        Rectangle(20, 80),
+        Rectangle(29, 33),
+        Rectangle(25, 56),
+        Rectangle(34, 27),
+        Rectangle(15, 10)
     };
     
     int stripWidth = 100;
@@ -138,7 +138,7 @@ int main() {
 
     cout << para.height << ", " << para.base << ", " << para.wside << endl;
 
-    vector<Polygon> polygons = generateRandomPolygons(30);
+    vector<Polygon> polygons = generateRandomPolygons(20);
 
     auto [packedPolygons, parallelograms, width, height] = polygon_packing(polygons);
     printPackingResult(packedPolygons, parallelograms, width, height);

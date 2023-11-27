@@ -10,18 +10,19 @@
 #define POLYGONPACKING
 
 tuple<vector<Parallelogram>, vector<int>> ordering_parallelograms_by_slope(vector<Parallelogram> paras) {
-    sort(paras.begin(), paras.end(), [] (const Parallelogram& a, const Parallelogram& b) {
-        return float(a.wside)/a.height < float(b.wside)/b.height;
+    vector<int> parallelograms_order(paras.size());
+    iota(parallelograms_order.begin(), parallelograms_order.end(), 0);
+
+    sort(parallelograms_order.begin(), parallelograms_order.end(), [&paras](int i, int j) {
+        return float(paras[i].wside)/paras[i].height < float(paras[j].wside)/paras[j].height;
     });
 
-    vector<int> parallelograms_order;
-    for (int i=0; i<paras.size(); i++) {
-        parallelograms_order.push_back(i);
+    vector<Parallelogram> sorted_paras(paras.size());
+    for (size_t i = 0; i < paras.size(); ++i) {
+        sorted_paras[i] = paras[parallelograms_order[i]];
     }
-    vector<int> parallelograms_map = parallelograms_order;
-    sort(parallelograms_order.begin(), parallelograms_order.end(), [&paras](int i, int j) {return float(paras[i].wside)/paras[i].height < float(paras[j].wside)/paras[j].height;});
-    sort(parallelograms_map.begin(), parallelograms_map.end(), [parallelograms_order](int i, int j) {return parallelograms_order[i]<parallelograms_order[j];});
-    return make_tuple(paras, parallelograms_map);
+
+    return make_tuple(sorted_paras, parallelograms_order);
 }
 
 tuple<vector<Polygon>, vector<Parallelogram>, int, int> polygon_packing(vector<Polygon> polygons, int c=3, string rectangle_strip_packing_algorithm = "ffdh") {
@@ -74,8 +75,8 @@ tuple<vector<Polygon>, vector<Parallelogram>, int, int> polygon_packing(vector<P
     }
 
     // Order the parallelograms within each shelf by their slope
-    vector<vector<Parallelogram>> parallelograms_shelves_ordered(map_rectangles_shelves.size());
-    vector<vector<int>> parallelograms_shelves_ordering_map(map_rectangles_shelves.size());
+    vector<vector<Parallelogram>> parallelograms_shelves_ordered(rectangles_shelves.size());
+    vector<vector<int>> parallelograms_shelves_ordering_map(rectangles_shelves.size());
     for (int i=0; i<parallelograms_shelves.size(); i++) {
         auto [pso, psom] = ordering_parallelograms_by_slope(paras);
         parallelograms_shelves_ordered[i] = pso;
@@ -84,7 +85,7 @@ tuple<vector<Polygon>, vector<Parallelogram>, int, int> polygon_packing(vector<P
 
     vector<tuple<int, int>> map_parallelograms_shelves(paras.size());
     for (int i=0; i<paras.size(); i++) {
-        map_parallelograms_shelves[i] = {map_rectangles_shelves[i].first,parallelograms_shelves_ordering_map[map_rectangles_shelves[i].second][map_rectangles_shelves[i].second]};
+        map_parallelograms_shelves[i] = {map_rectangles_shelves[i].first,parallelograms_shelves_ordering_map[map_rectangles_shelves[i].first][map_rectangles_shelves[i].second]};
     }
 
     //Compute the coordinates of the left lower vertex of each parallelogram in the packing.
